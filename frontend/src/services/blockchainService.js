@@ -5,7 +5,7 @@ const BlockchainService = {
     getEos() {
       const eosOptions = {
         expireInSeconds: 60,
-        chainId: "",
+        chainId: config.chainId,
         broadcast: true,
         debug: false,
         sign: true
