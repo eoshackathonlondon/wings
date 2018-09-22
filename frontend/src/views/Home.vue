@@ -2,10 +2,12 @@
   <div class="wrap">
     <div>
       <sui-card class="fluid">
+        
           <img class="profilePhoto" alt="profile photo" src="../assets/valerie.png">
+
       </sui-card>
 
-      <div class="spacer" />
+      <div class="half-spacer" />
       <div class="emphasize">Ashley Louise &bull; 28</div>
     </div>
 
@@ -17,9 +19,10 @@
         <sui-button-or text="or" />
         <sui-button color='red' icon="heart" label-position="right">Connect</sui-button>
     </div>
-    <div class="spacer" />
+    <div class="half-spacer">Report this user</div>
+    <div class="half-spacer" />
 
-    <i>Private profile data is available once a connection is made.</i>
+    <i>The full profile data is available once both parties connect.</i>
   </div>
 </template>
 

@@ -10,7 +10,7 @@ html, body {
   
   body {
     display: table-cell;
-    padding-top:3em;
+    padding-top:2em;
   }
 
   .logo {
@@ -22,6 +22,9 @@ html, body {
       margin:auto
   }
 
+  .half-spacer {
+      padding:0.5em;
+  }
   .spacer {
       padding:1em;
   }
