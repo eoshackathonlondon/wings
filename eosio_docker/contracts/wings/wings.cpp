@@ -28,28 +28,29 @@ class wings : public eosio::contract {
     using contract::contract;
 
     /// @abi action
-    void setdata(user_type data) {
-        require_auth(data.account);
+    void setdata(account_name account, public_key encryption_key, string name,
+                 uint8_t age, string profile_pic_url, private_data_type private_data) {
+        require_auth(account);
 
         users_table users(_self, _self);
-        auto user_itr = users.find(data.account);
+        auto user_itr = users.find(account);
 
         if (user_itr == users.end()) {
             users.emplace(_self, [&](auto &user) {
-                user.account = data.account;
-                user.encryption_key = data.encryption_key;
-                user.name = data.name;
-                user.age = data.age;
-                user.profile_pic_url = data.profile_pic_url;
-                user.private_data = data.private_data;
+                user.account = account;
+                user.encryption_key = encryption_key;
+                user.name = name;
+                user.age = age;
+                user.profile_pic_url = profile_pic_url;
+                user.private_data = private_data;
             });
         } else {
             users.modify(user_itr, _self, [&](auto &user) {
-                user.encryption_key = data.encryption_key;
-                user.name = data.name;
-                user.age = data.age;
-                user.profile_pic_url = data.profile_pic_url;
-                user.private_data = data.private_data;
+                user.encryption_key = encryption_key;
+                user.name = name;
+                user.age = age;
+                user.profile_pic_url = profile_pic_url;
+                user.private_data = private_data;
             });
         }
     }

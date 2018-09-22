@@ -60,6 +60,7 @@ deploy_contract.sh wings wings wings_wallet $(cat wings_wallet_password.txt)
 echo "=== create user accounts ==="
 # script for create data into blockchain
 create_accounts.sh
+seeds.sh
 
 # * Replace the script with different form of data that you would pushed into the blockchain when you start your own project
 
