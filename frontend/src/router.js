@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Login from "./views/Login.vue";
 import Home from "./views/Home.vue";
 import Profile from "./views/Profile.vue";
+import Connections from "./views/Connections.vue";
 
 Vue.use(Router);
 
@@ -24,7 +25,12 @@ export default new Router({
       path: "/profile",
       name: "profile",
       component: Profile
-    },    
+    }, 
+    {
+      path: "/connections",
+      name: "connections",
+      component: Connections
+    },        
     {
       path: "/about",
       name: "about",

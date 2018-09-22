@@ -54,6 +54,14 @@ html, body {
       color: white;     
   }
 
+  .profilePhotoConnected {
+    width:280px;
+    height:280px;
+    position: relative;
+    text-align: center;
+    color: white;     
+}
+
   .text-overlay {
     position: absolute;
     bottom: 12px;

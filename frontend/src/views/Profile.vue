@@ -3,7 +3,7 @@
 
   
         <h3>Your Name</h3>
-        <sui-input class="fullwidth" value="Ashley Louise" />
+        <sui-input class="fullwidth" value="Jordan Matthews" />
 
         <h3>Current Age</h3>
         <sui-dropdown class="fullwidth"
@@ -14,11 +14,13 @@
         />
 
         <h3>Private Profile</h3>
-        The private profile is only exposed when both parties connect.
+        The field is only exposed when both parties connect. <b>Encrypted on blockchain.</b>
         <div class="half-spacer" />
         <textarea rows="7" style="border:1px solid #ccc; width:100%">I'm super glad we both decided to connect. My phone number is 044-245-123-9812, give me a call sometime soon. :)
         </textarea>
 
+        <div class="spacer" />
+        <sui-button color='red'>Save Profile</sui-button>
     </div>
 </template>
 
@@ -27,7 +29,7 @@ export default {
   name: 'SelectionExample',
   data() {
     return {
-      current: 28,
+      current: 24,
       options: [...Array(100).keys()].map(function(i) {
         return {
             text: 18+i,
