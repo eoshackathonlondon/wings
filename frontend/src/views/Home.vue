@@ -1,13 +1,15 @@
 <template lang="html">
   <div class="wrap">
     <div>
-      <sui-card class="fluid">
-        
-          <img class="profilePhoto" alt="profile photo" src="../assets/valerie.png">
 
-      </sui-card>
+      <div class="photo">
+        <img class="profilePhoto" alt="profile photo" src="../assets/valerie.png">
+        <div class="text-overlay"><sui-icon size="med" name="star" /> 10500</div>
+      </div>
+          
 
-      <div class="half-spacer" />
+
+      <div class="spacer" />
       <div class="emphasize">Ashley Louise &bull; 28</div>
     </div>
 
@@ -28,6 +30,6 @@
 
 <script>
 export default {
-  name: 'FluidCardExample',
+  name: 'Homevue',
 };
 </script>
