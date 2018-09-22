@@ -88,7 +88,7 @@ class Index extends Component {
     const eos = Eos({keyProvider: privateKey});
     const result = await eos.transaction({
       actions: [{
-        account: "notechainacc",
+        account: "wings",
         name: actionName,
         authorization: [{
           actor: account,
@@ -108,8 +108,8 @@ class Index extends Component {
     const eos = Eos();
     eos.getTableRows({
       "json": true,
-      "code": "notechainacc",   // contract who owns the table
-      "scope": "notechainacc",  // scope of the table
+      "code": "wings",   // contract who owns the table
+      "scope": "wings",  // scope of the table
       "table": "notestruct",    // name of the table as specified by the contract abi
       "limit": 100,
     }).then(result => this.setState({ noteTable: result.rows }));

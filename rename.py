@@ -20,7 +20,7 @@ def find_and_replace(replacements):
 if __name__ == '__main__':
     eject_files(['.git', 'rename.py'])
 
-    name = 'hackathon'
+    name = 'wings'
     find_and_replace([
         ('notechainwal', "{}_wallet".format(name)),
         ('notechain_wallet', "{}_wallet".format(name)),
