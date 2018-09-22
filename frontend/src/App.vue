@@ -1,8 +1,10 @@
 <template>
   <div id="app">
+      <img class="logo" src="./assets/logo.png">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/home">Explore</router-link> |
+      <router-link to="/about">Connections</router-link> | 
+      <router-link to="/profile">My Profile</router-link>
     </div>
     <router-view/>
   </div>
@@ -18,6 +20,7 @@
 }
 #nav {
   padding: 30px;
+  padding-top:0.5em;
 }
 
 #nav a {
@@ -26,6 +29,6 @@
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #d11819;
 }
 </style>

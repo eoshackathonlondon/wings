@@ -4,6 +4,7 @@ import router from "./router";
 
 import SuiVue from 'semantic-ui-vue';
 import 'semantic-ui-css/semantic.min.css';
+import '../public/main.css';
 Vue.use(SuiVue);
 
 Vue.config.productionTip = false;
