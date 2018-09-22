@@ -4,12 +4,20 @@ using std::string;
 
 class wings : public eosio::contract {
   private:
+    struct private_data_type {
+        string data;
+        uint64_t nonce;
+        uint32_t checksum;
+    };
+
     /// @abi table users i64
     struct user_type {
         account_name account;
         public_key encryption_key;
-        string public_data;
-        string private_data;
+        string name;
+        uint8_t age;
+        string profile_pic_url;
+        private_data_type private_data;
 
         auto primary_key() const { return account; }
     };
@@ -30,13 +38,17 @@ class wings : public eosio::contract {
             users.emplace(_self, [&](auto &user) {
                 user.account = data.account;
                 user.encryption_key = data.encryption_key;
-                user.public_data = data.public_data;
+                user.name = data.name;
+                user.age = data.age;
+                user.profile_pic_url = data.profile_pic_url;
                 user.private_data = data.private_data;
             });
         } else {
             users.modify(user_itr, _self, [&](auto &user) {
                 user.encryption_key = data.encryption_key;
-                user.public_data = data.public_data;
+                user.name = data.name;
+                user.age = data.age;
+                user.profile_pic_url = data.profile_pic_url;
                 user.private_data = data.private_data;
             });
         }
