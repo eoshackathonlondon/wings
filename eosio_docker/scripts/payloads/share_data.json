@@ -1,0 +1,9 @@
+{
+  "from": "stella",
+  "to": "andres",
+  "shared_data": {
+    "data": "{\"pics\": [\"/profilepic2.jpeg\"]}",
+    "nonce": 459,
+    "checksum": 19
+  }
+}

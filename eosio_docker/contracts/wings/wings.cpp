@@ -24,6 +24,17 @@ class wings : public eosio::contract {
 
     typedef eosio::multi_index<N(users), user_type> users_table;
 
+    /// @abi table messages i64
+    struct message_type {
+        account_name from;
+        account_name to;
+        private_data_type data;
+
+        auto primary_key() const { return to; }
+    };
+
+    typedef eosio::multi_index<N(messages), message_type> messages_table;
+
   public:
     using contract::contract;
 
@@ -36,7 +47,7 @@ class wings : public eosio::contract {
         auto user_itr = users.find(account);
 
         if (user_itr == users.end()) {
-            users.emplace(_self, [&](auto &user) {
+            users.emplace(_self, [&](user_type &user) {
                 user.account = account;
                 user.encryption_key = encryption_key;
                 user.name = name;
@@ -45,7 +56,7 @@ class wings : public eosio::contract {
                 user.private_data = private_data;
             });
         } else {
-            users.modify(user_itr, _self, [&](auto &user) {
+            users.modify(user_itr, _self, [&](user_type &user) {
                 user.encryption_key = encryption_key;
                 user.name = name;
                 user.age = age;
@@ -54,6 +65,27 @@ class wings : public eosio::contract {
             });
         }
     }
+
+    /// @abi action
+    void share(account_name from, account_name to, private_data_type shared_data) {
+        require_auth(from);
+
+        messages_table messages(_self, _self);
+        auto message_itr = messages.find(to);
+
+        if (message_itr == messages.end()) {
+            messages.emplace(_self, [&](message_type &message) {
+                message.from = from;
+                message.to = to;
+                message.data = shared_data;
+            });
+        } else {
+            messages.modify(message_itr, _self, [&](message_type &message) {
+                message.from = from;
+                message.data = shared_data;
+            });
+        }
+    }
 };
 
-EOSIO_ABI(wings, (setdata))
+EOSIO_ABI(wings, (setdata)(share))
