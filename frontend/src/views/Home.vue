@@ -4,7 +4,7 @@
 
       <div class="photo">
         <img class="profilePhoto" alt="profile photo" :src="currentProfilePic">
-        <div class="text-overlay"><sui-icon size="med" name="star" /> 10500</div>
+        <div class="text-overlay"><sui-rating icon="star" :rating="1" :max-rating="1" /> 10500</div>
       </div>
           
 

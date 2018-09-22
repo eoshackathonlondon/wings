@@ -3,7 +3,7 @@
       <img class="logo" src="./assets/logo.png">
     <div id="nav">
       <router-link to="/home">Explore</router-link> |
-      <router-link to="/about">Connections</router-link> | 
+      <router-link to="/connections">Connections</router-link> | 
       <router-link to="/profile">My Profile</router-link>
     </div>
     <router-view/>
