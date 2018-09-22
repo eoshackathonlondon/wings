@@ -4,4 +4,4 @@
 cd "$(dirname "$0")/frontend"
 
 echo "=== npm start ==="
-npm start
+npm run serve
