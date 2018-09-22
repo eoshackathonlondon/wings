@@ -1,81 +1,46 @@
 #include <eosiolib/eosio.hpp>
-#include <eosiolib/print.hpp>
 using namespace eosio;
+using std::string;
 
-// Smart Contract Name: wings
-// Table struct:
-//   notestruct: multi index table to store the notes
-//     prim_key(uint64): primary key
-//     user(account_name/uint64): account name for the user
-//     note(string): the note message
-//     timestamp(uint64): the store the last update block time
-// Public method:
-//   isnewuser => to check if the given account name has note in table or not
-// Public actions:
-//   update => put the note into the multi-index table and sign by the given account
-
-// Replace the contract class name when you start your own project
 class wings : public eosio::contract {
   private:
-    bool isnewuser( account_name user ) {
-      notetable noteobj(_self, _self);
-      // get object by secordary key
-      auto notes = noteobj.get_index<N(getbyuser)>();
-      auto note = notes.find(user);
+    /// @abi table users i64
+    struct user_type {
+        account_name account;
+        public_key encryption_key;
+        string public_data;
+        string private_data;
 
-      return note == notes.end();
-    }
-
-    /// @abi table
-    struct notestruct {
-      uint64_t      prim_key;  // primary key
-      account_name  user;      // account name for the user
-      std::string   note;      // the note message
-      uint64_t      timestamp; // the store the last update block time
-
-      // primary key
-      auto primary_key() const { return prim_key; }
-      // secondary key: user
-      account_name get_by_user() const { return user; }
+        auto primary_key() const { return account; }
     };
 
-    // create a multi-index table and support secondary key
-    typedef eosio::multi_index< N(notestruct), notestruct,
-      indexed_by< N(getbyuser), const_mem_fun<notestruct, account_name, &notestruct::get_by_user> >
-      > notetable;
+    typedef eosio::multi_index<N(users), user_type> users_table;
 
   public:
     using contract::contract;
 
     /// @abi action
-    void update( account_name _user, std::string& _note ) {
-      // to sign the action with the given account
-      require_auth( _user );
+    void setdata(user_type data) {
+        require_auth(data.account);
 
-      notetable obj(_self, _self); // code, scope
+        users_table users(_self, _self);
+        auto user_itr = users.find(data.account);
 
-      // create new / update note depends whether the user account exist or not
-      if (isnewuser(_user)) {
-        // insert object
-        obj.emplace( _self, [&]( auto& address ) {
-          address.prim_key    = obj.available_primary_key();
-          address.user        = _user;
-          address.note        = _note;
-          address.timestamp   = now();
-        });
-      } else {
-        // get object by secordary key
-        auto notes = obj.get_index<N(getbyuser)>();
-        auto &note = notes.get(_user);
-        // update object
-        obj.modify( note, _self, [&]( auto& address ) {
-          address.note        = _note;
-          address.timestamp   = now();
-        });
-      }
+        if (user_itr == users.end()) {
+            users.emplace(_self, [&](auto &user) {
+                user.account = data.account;
+                user.encryption_key = data.encryption_key;
+                user.public_data = data.public_data;
+                user.private_data = data.private_data;
+            });
+        } else {
+            users.modify(user_itr, _self, [&](auto &user) {
+                user.encryption_key = data.encryption_key;
+                user.public_data = data.public_data;
+                user.private_data = data.private_data;
+            });
+        }
     }
-
 };
 
-// specify the contract name, and export a public action: update
-EOSIO_ABI( wings, (update) )
+EOSIO_ABI(wings, (setdata))
