@@ -14,14 +14,25 @@ const BlockchainService = {
       eosOptions.authorization = [
         config.userAccountName + "@active"
       ];
-  
-      state.eos = Eos({
+
+      return Eos({
         keyProvider: config.privateKey,
         httpEndpoint: config.endpoint,
         ...eosOptions
       });
-  
-      return state.eos;
+    },
+
+    async getAccountAuthorityKey(accountName, authority) {
+
+        var account = await this.getEos().getAccount(accountName);
+        var key = null;
+        for (var i = 0; i < account.permissions.length; i++) {
+            if (account.permissions[i].perm_name == authority) {
+                key = account.permissions[i].required_auth.keys[0].key;
+                break;
+            }
+        }
+        return key;
     }
 };
 
