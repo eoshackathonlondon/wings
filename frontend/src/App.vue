@@ -1,15 +1,12 @@
 <template>
   <div id="app">
-      <div style="text-align:right; vertical-align: middle; font-size:15px;">
-          <a is="sui-label" image>
-              <img :src="user.profile_pic_url" >
-              {{user.name}}
-          </a>
-      </div>
-      
+    <div style="text-align:right; vertical-align: middle; font-size:15px;">
+      <a is="sui-label" image>
+        <img src="https://i.imgur.com/nAJrtPV.jpg"> Andres
+      </a>
+    </div>
 
-
-      <div class="spacer" />
+    <div class="spacer" />
     <img class="logo" src="./assets/logo.png">
     <div id="nav">
       <router-link to="/home">Explore</router-link> |
@@ -19,27 +16,6 @@
     <router-view/>
   </div>
 </template>
-
-<script>
-import blockchainService from "./services/blockchainService.js";
-import config from "./config.js";
-
-export default {
-  data() {
-    return { user: { name: "Sign in", profile_pic: "" } };
-  },
-  async mounted() {
-    this.user = (await blockchainService.getEos().getTableRows({
-      json: true,
-      code: "wings",
-      scope: "wings",
-      table: "users",
-      lower_bound: config.userAccountName
-    })).rows[0];
-  }
-};
-</script>
-
 
 <style>
 #app {
