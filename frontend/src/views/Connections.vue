@@ -24,7 +24,6 @@ import blockchainService from "../services/blockchainService.js";
 import config from "../config.js"
 
 export default {
-  name: "TableRatingExample",
   data() {
     return {
       connectedUsers: []

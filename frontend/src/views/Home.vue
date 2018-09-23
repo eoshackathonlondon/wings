@@ -44,6 +44,8 @@ export default {
         });
 
         this.users = result.rows;
+
+        console.log(this.users);
     },
     data: () => ({
       users: [],
@@ -74,7 +76,8 @@ export default {
     },
     methods: {
         async notInterested() {
-          this.userIndex = this.users.length >= this.userIndex ? 0 : this.userIndex++;
+          this.userIndex = this.users.length >= this.userIndex ? 1 : this.userIndex++;
+          console.log(this.users.length)
         },
         async connect() {
           var connectUser = this.users[this.userIndex];

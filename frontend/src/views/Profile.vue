@@ -4,6 +4,8 @@
         <h3>Your Name</h3>
         <sui-input class="fullwidth" v-model="name" />
 
+        <sui-input class="fullwidth" v-model="profile_pic_url" />
+        
         <h3>Current Age</h3>
         <sui-dropdown class="fullwidth"
             placeholder="Select Age"
