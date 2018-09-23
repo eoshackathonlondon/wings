@@ -106,8 +106,9 @@ export default {
           this.open = !this.open
         },        
         async notInterested() {
-          this.userIndex = this.users.length >= this.userIndex ? 1 : this.userIndex++;
+          this.userIndex = this.userIndex >= this.users.length ? 1 : this.userIndex+1;
           console.log(this.users.length)
+          console.log(this.userIndex)
         },
         async connect() {
           var connectUser = this.users[this.userIndex];

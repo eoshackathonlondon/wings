@@ -48,6 +48,8 @@ export default {
       table: "messages"
     })).rows.filter(c => c.to === config.userAccountName);
 
+    console.log(connections)
+
     var users = (await blockchainService.getEos().getTableRows({
       json: true,
       code: "wings",
@@ -55,9 +57,12 @@ export default {
       table: "users"
     })).rows;
 
-    this.connectedUsers = connections.map(c => {
+    this.connectedUsers.push(...connections.map(c => {
         return {...users.find(u => u.account === c.from), private_data: c.data};
-    });
+    }));
+
+    console.log(users)
+    console.log(this.connectedUsers)
 
     for (const cu of this.connectedUsers) {
         

@@ -1,0 +1,12 @@
+{
+  "account": "victoria",
+  "encryption_key": "EOS7XPiPuL3jbgpfS3FFmjtXK62Th9n2WZdvJb6XLygAghfx1W7Nb",
+  "name": "Victoria",
+  "age": 28,
+  "profile_pic_url": "https://i.imgur.com/YIrIfWd.jpg",
+  "private_data": {
+    "data": "",
+    "nonce": 0,
+    "checksum": 0
+  }
+}
