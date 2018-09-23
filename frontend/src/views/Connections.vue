@@ -7,7 +7,7 @@
                   <img class="profilePhotoConnected" alt="profile photo" :src="user.profile_pic_url">
                 </sui-table-cell>
                 <sui-table-cell single-line><h3>
-                  {{user.name}} &bull; {{user.age}} &nbsp; &nbsp; &nbsp; <sui-rating icon="star" :rating="1" :max-rating="1" /> 10500
+                  {{user.name}} &bull; {{user.age}} &nbsp; &nbsp; &nbsp; 
                 </h3></sui-table-cell>
                 <sui-table-cell>
                   {{user.description}}
@@ -15,6 +15,17 @@
             </sui-table-row>
           </sui-table-body>
         </sui-table>
+
+        <sui-card>
+          <sui-image :src="user.profile_pic_url" />
+          <sui-card-content>
+            <sui-card-header>{{user.name}} &bull {{user.age}}</sui-card-header>
+            <sui-card-description>{{user.description}}</sui-card-description>
+          </sui-card-content>
+          <sui-card-content extra>
+            Reputation: <sui-rating icon="star" :rating="1" :max-rating="1" /> 10500
+          </sui-card-content>
+        </sui-card>
     </div>
 </template>
       
