@@ -29,9 +29,18 @@
 </template>
 
 <script>
+import encryptionService from "../services/encryptionService.js"
 import blockchainService from "../services/blockchainService.js"
 import config from "../config.js"
-import images from "../assets/*";
+
+import erica from "../assets/erica.png";
+import susan from "../assets/susan.png";
+import valerie from "../assets/valerie.png";
+
+var images = {erica, susan, valerie};
+
+console.log(images)
+
 export default {
     async mounted() {
         var result = await blockchainService.getEos().getTableRows({
@@ -81,12 +90,11 @@ export default {
           var privData = user.private_data.data;
 
           var encryptObj = encryptionService.encryptData(privData, connectUser.encryption_key);
-          console.log(encryptObj)
 
           const txResult = await blockchainService.getEos().transaction({ 
-            actions: {
+            actions: [{
               account: "wings",
-              name: "connect",
+              name: "share",
               authorization: [
               {
                 actor: config.userAccountName,
@@ -94,17 +102,15 @@ export default {
               }],
               data: {
                  from: config.userAccountName, 
-                 to: connectUser.name, 
+                 to: connectUser.account, 
                  shared_data: {
                    data: encryptObj.encryptedData.toString('binary'),
                    nonce: encryptObj.nonce,
                    checksum: encryptObj.checksum
                  }
               }
-            }
+            }]
           });
-
-          console.log(txResult);
         }
     }
 };

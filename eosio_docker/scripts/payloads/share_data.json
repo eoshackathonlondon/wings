@@ -2,7 +2,7 @@
   "from": "stella",
   "to": "andres",
   "shared_data": {
-    "data": "{\"pics\": [\"/profilepic2.jpeg\"]}",
+    "data": "{\"pics\": [\"/profilepic2\"]}",
     "nonce": 459,
     "checksum": 19
   }

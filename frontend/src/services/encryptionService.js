@@ -1,5 +1,4 @@
 import Eos from "eosjs";
-import blockchainService from "./blockchainService.js"
 import config from "../config.js"
 
 export default {

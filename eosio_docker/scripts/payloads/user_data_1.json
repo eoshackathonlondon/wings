@@ -3,9 +3,9 @@
   "encryption_key": "EOS8LoJJUU3dhiFyJ5HmsMiAuNLGc6HMkxF4Etx6pxLRG7FU89x6X",
   "name": "Andres",
   "age": 28,
-  "profile_pic_url": "profilepic.jpeg",
+  "profile_pic_url": "profilepic",
   "private_data": {
-    "data": "{\"pics\": [\"/profilepic2.jpeg\"]}",
+    "data": "{\"pics\": [\"/profilepic2\"]}",
     "nonce": 459,
     "checksum": 19
   }

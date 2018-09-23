@@ -24,7 +24,7 @@ export default {
     },
     data: () => ({
         accountName: "andres",
-        privateKey: "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5"
+        privateKey: "5KNm1BgaopP9n5NqJDo9rbr49zJFWJTMJheLoLM5b7gjdhqAwCx"
     }),
     computed: {
         
@@ -33,18 +33,6 @@ export default {
         async login() {
             config.userAccountName = this.accountName;
             config.privateKey = this.privateKey;
-
-            // var receiverPubKey = await blockchainService.getAccountAuthorityKey("useraaaaaaab", "active");
-            // var encryptObj = await encryptionService.encryptData("hello world!", receiverPubKey);
-            // console.log(encryptObj)
-
-            // config.privateKey = "5KLqT1UFxVnKRWkjvhFur4sECrPhciuUqsYRihc1p9rxhXQMZBg";
-
-            // var senderPubKey = await blockchainService.getAccountAuthorityKey("useraaaaaaaa", "active");
-            // var text = await encryptionService.decryptData(senderPubKey, encryptObj.encryptedData, encryptObj.nonce, encryptObj.checksum);
-
-            // console.log(text);
-
             this.$router.push("/home");
         }
     }
