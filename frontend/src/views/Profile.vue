@@ -99,6 +99,7 @@ export default {
               }
             }]
         });
+        this.$toasted.show("Profile Updated!");
         this.$router.push("/home");
     }
   }
