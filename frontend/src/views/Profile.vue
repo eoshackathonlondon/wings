@@ -92,8 +92,8 @@ export default {
                 age: parseInt(this.current), 
                 profile_pic_url: this.profile_pic_url, 
                 private_data: {
-                    data: encryptObj.encryptedData,
-                    nonce: encryptObj.nonce.toString(),
+                    data: encryptObj.encryptedData.toString('binary'),
+                    nonce: encryptObj.nonce,
                     checksum: encryptObj.checksum
                 }
               }
