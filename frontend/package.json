@@ -12,7 +12,8 @@
     "semantic-ui-css": "^2.4.0",
     "semantic-ui-vue": "^0.4.1",
     "vue": "^2.5.17",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-toasted": "^1.1.24"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.3",

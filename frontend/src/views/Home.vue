@@ -103,7 +103,7 @@ export default {
                  to: connectUser.account, 
                  shared_data: {
                    data: encryptObj.encryptedData.toString('binary'),
-                   nonce: encryptObj.nonce,
+                   nonce: encryptObj.nonce.toStrin(),
                    checksum: encryptObj.checksum
                  }
               }

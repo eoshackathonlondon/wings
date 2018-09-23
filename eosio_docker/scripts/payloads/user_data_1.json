@@ -5,7 +5,7 @@
   "age": 28,
   "profile_pic_url": "profilepic",
   "private_data": {
-    "data": "{\"pics\": [\"/profilepic2\"]}",
+    "data": "",
     "nonce": 459,
     "checksum": 19
   }
