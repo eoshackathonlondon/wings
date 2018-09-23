@@ -48,99 +48,119 @@
 </template>
 
 <script>
-import encryptionService from "../services/encryptionService.js"
-import blockchainService from "../services/blockchainService.js"
-import config from "../config.js"
-
+import encryptionService from "../services/encryptionService.js";
+import blockchainService from "../services/blockchainService.js";
+import config from "../config.js";
 
 export default {
-    async mounted() {
-        var result = await blockchainService.getEos().getTableRows({
-          json: true,
-          code: "wings",
-          scope: "wings",
-          table: "users"
-        });
+  async mounted() {
+    var result = await blockchainService.getEos().getTableRows({
+      json: true,
+      code: "wings",
+      scope: "wings",
+      table: "users"
+    });
 
-        this.users = result.rows;
+    this.users = result.rows;
+  },
+  data: () => ({
+    users: [],
+    userIndex: 1,
+    open: false,
+    current: 1,
+    options: [
+      {
+        text: "The profile photo is innapropriate. (-50 reputation points)",
+        value: 0
+      },
+      {
+        text:
+          "I suspect this profile is not authentic. (-100 reputation points)",
+        value: 1
+      }
+    ]
+  }),
+  computed: {
+    currentProfilePic() {
+      var user = this.users[this.userIndex];
 
-        console.log(this.users);
+      if (!user) return "";
+
+      return user.profile_pic_url;
     },
-    data: () => ({
-      users: [],
-      userIndex: 1,
-      open: false,
-      current: 1,
-      options: [{text: "The profile photo is innapropriate. (-50 reputation points)", value: 0},
-      {text: "I suspect this profile is not authentic. (-100 reputation points)", value: 1}]
-    }),
-    computed: {
-        currentProfilePic() {
-          var user = this.users[this.userIndex];
+    currentProfileName() {
+      var user = this.users[this.userIndex];
 
-          if(!user) return "";
+      if (!user) return "";
 
-          return user.profile_pic_url;
-        },
-        currentProfileName() {
-          var user = this.users[this.userIndex];
-
-          if(!user) return "";
-
-          return user.name;
-        },
-        currentProfileAge() {
-          var user = this.users[this.userIndex];
-
-          if(!user) return "";
-
-          return user.age;
-        }
+      return user.name;
     },
-    methods: {
-        report() {
-          this.$toasted.show("Profile Reported");
-          this.open = !this.open
-        },
-        toggle() {
-          this.open = !this.open
-        },        
-        async notInterested() {
-          this.userIndex = this.userIndex >= this.users.length ? 1 : this.userIndex+1;
-          console.log(this.users.length)
-          console.log(this.userIndex)
-        },
-        async connect() {
-          var connectUser = this.users[this.userIndex];
-          var user = this.users.find(u => u.account == config.userAccountName);
+    currentProfileAge() {
+      var user = this.users[this.userIndex];
 
-          var privData = user.private_data.data;
+      if (!user) return "";
 
-          var encryptObj = encryptionService.encryptData(privData, connectUser.encryption_key);
+      return user.age;
+    }
+  },
+  methods: {
+    report() {
+      this.$toasted.show("Profile Reported");
+      this.open = !this.open;
+    },
+    toggle() {
+      this.open = !this.open;
+    },
+    async notInterested() {
+      this.userIndex =
+        this.userIndex >= this.users.length ? 1 : this.userIndex + 1;
+    },
+    async connect() {
+      var connectUser = this.users[this.userIndex];
+      var user = this.users.find(u => u.account == config.userAccountName);
 
-          const txResult = await blockchainService.getEos().transaction({ 
-            actions: [{
-              account: "wings",
-              name: "share",
-              authorization: [
+      var privData = user.private_data;
+
+      if (privData && privData.data) {
+        privData = encryptionService.decryptData(
+          user.encryption_key,
+          privData.data,
+          privData.nonce,
+          privData.checksum
+        );
+      }
+
+      var encryptObj = encryptionService.encryptData(
+        privData,
+        connectUser.encryption_key
+      );
+
+      await blockchainService.getEos().transaction({
+        actions: [
+          {
+            account: "wings",
+            name: "share",
+            authorization: [
               {
                 actor: config.userAccountName,
                 permission: "active"
-              }],
-              data: {
-                 from: config.userAccountName, 
-                 to: connectUser.account, 
-                 shared_data: {
-                   data: encryptObj.encryptedData.toString('binary'),
-                   nonce: encryptObj.nonce,
-                   checksum: encryptObj.checksum
-                 }
               }
-            }]
-          });
+            ],
+            data: {
+              from: config.userAccountName,
+              to: connectUser.account,
+              shared_data: {
+                data: encryptObj.encryptedData.toString("binary"),
+                nonce: encryptObj.nonce,
+                checksum: encryptObj.checksum
+              }
+            }
+          }
+        ]
+      });
 
-          this.$router.push("/connections");
-        }
+      this.$router.push("/connections");
     }
+  }
 };
 </script>

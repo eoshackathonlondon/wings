@@ -1,21 +1,5 @@
 <template lang="html">
     <div class="wrap alignLeft">
-        <!-- <sui-table celled padded>
-          <sui-table-body>
-            <sui-table-row >
-                <sui-table-cell>
-                  <img class="profilePhotoConnected" alt="profile photo" :src="user.profile_pic_url">
-                </sui-table-cell>
-                <sui-table-cell single-line><h3>
-                  {{user.name}} &bull; {{user.age}} &nbsp; &nbsp; &nbsp; 
-                </h3></sui-table-cell>
-                <sui-table-cell>
-                  {{user.description}}
-                </sui-table-cell>  
-            </sui-table-row>
-          </sui-table-body>
-        </sui-table> -->
-
         <sui-card v-for="user in connectedUsers" :key="user.account">
           <sui-image :src="user.profile_pic_url" />
           <sui-card-content>
@@ -62,12 +46,14 @@ export default {
 
     for (const cu of this.connectedUsers) {
       if (cu.private_data && cu.private_data.data) {
-        var prvDataText = encryptionService.decryptData(
-          cu.encryption_key,
-          cu.private_data.data,
-          cu.private_data.nonce,
-          cu.private_data.checksum
-        );
+        var prvDataText = encryptionService
+          .decryptData(
+            cu.encryption_key,
+            cu.private_data.data,
+            cu.private_data.nonce,
+            cu.private_data.checksum
+          )
+          .toString();
         var pvtData = JSON.parse(prvDataText);
         cu.description = pvtData.description;
         cu.pics = pvtData.pics;
