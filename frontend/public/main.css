@@ -84,3 +84,13 @@ html, body {
 .fullwidth {
     width:100%;
 }
+
+.roundedImg {
+    height:18px;
+    width:18px;
+    border-radius: 50%;
+}
+
+.highlight {
+    background-color:rgba(0,0,0,0.2)
+}

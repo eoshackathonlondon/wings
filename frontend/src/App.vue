@@ -1,5 +1,10 @@
 <template>
   <div id="app">
+      <div style="text-align:right; vertical-align: middle; font-size:14px;">
+          <img :src="user.profile_pic_url" class="roundedImg" /> {{user.name}}
+      </div>
+      
+      <div class="spacer" />
     <img class="logo" src="./assets/logo.png">
     <div id="nav">
       <router-link to="/home">Explore</router-link> |
