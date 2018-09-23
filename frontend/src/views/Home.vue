@@ -60,7 +60,7 @@ export default {
 
           if(!user) return "";
 
-          return images[user.profile_pic_url];
+          return user.profile_pic_url;
         },
         currentProfileName() {
           var user = this.users[this.userIndex];
