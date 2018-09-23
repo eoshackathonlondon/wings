@@ -3,7 +3,7 @@
   "encryption_key": "EOS8LoJJUU3dhiFyJ5HmsMiAuNLGc6HMkxF4Etx6pxLRG7FU89x6X",
   "name": "Andres",
   "age": 28,
-  "profile_pic_url": "profilepic",
+  "profile_pic_url": "https://i.imgur.com/nAJrtPV.jpg",
   "private_data": {
     "data": "",
     "nonce": 459,
