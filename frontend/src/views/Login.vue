@@ -20,7 +20,7 @@ import encryptionService from "../services/encryptionService.js"
 import blockchainService from "../services/blockchainService.js"
 export default {
     async mounted() {
-
+        
     },
     data: () => ({
         accountName: "andres",
@@ -33,7 +33,7 @@ export default {
         async login() {
             config.userAccountName = this.accountName;
             config.privateKey = this.privateKey;
-            this.$router.push("/home");
+            this.$router.push("/profile");
         }
     }
 };
