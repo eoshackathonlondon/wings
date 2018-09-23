@@ -10,16 +10,16 @@
 
 
       <div class="spacer" />
-      <div class="emphasize">Ashley Louise &bull; 28</div>
+      <div class="emphasize">{{currentProfileName}} &bull; {{currentProfileAge}}</div>
     </div>
 
     <div class="spacer" />
 
 
     <div is="sui-button-group">
-        <sui-button v-model="notInterested">Not Interested</sui-button>
+        <sui-button @click="notInterested">Not Interested</sui-button>
         <sui-button-or text="or" />
-        <sui-button v-model="connect" color='red' icon="heart" label-position="right">Connect</sui-button>
+        <sui-button @click="connect" color='red' icon="heart" label-position="right">Connect</sui-button>
     </div>
     <div class="half-spacer">Report this user</div>
     <div class="half-spacer" />
@@ -30,6 +30,8 @@
 
 <script>
 import blockchainService from "../services/blockchainService.js"
+import config from "../config.js"
+import images from "../assets/*";
 export default {
     async mounted() {
         var result = await blockchainService.getEos().getTableRows({
@@ -40,12 +42,10 @@ export default {
         });
 
         this.users = result.rows;
-
-        console.log(this.users)
     },
     data: () => ({
       users: [],
-      userIndex: 0
+      userIndex: 1
     }),
     computed: {
         currentProfilePic() {
@@ -53,7 +53,21 @@ export default {
 
           if(!user) return "";
 
-          return '../assets/' + user.profile_pic_url;
+          return images[user.profile_pic_url];
+        },
+        currentProfileName() {
+          var user = this.users[this.userIndex];
+
+          if(!user) return "";
+
+          return user.name;
+        },
+        currentProfileAge() {
+          var user = this.users[this.userIndex];
+
+          if(!user) return "";
+
+          return user.age;
         }
     },
     methods: {
@@ -61,20 +75,36 @@ export default {
           this.userIndex = this.users.length >= this.userIndex ? 0 : this.userIndex++;
         },
         async connect() {
-          // const txResult = await blockchainService.getEos().transaction({ 
-          //   actions: {
-          //     account: "wings",
-          //     name: "connect",
-          //     authorization: [
-          //     {
-          //       actor: config.userAccountName,
-          //       permission: "active"
-          //     }],
-          //     data: {
-                 
-          //     }
-          //   }
-          // });
+          var connectUser = this.users[this.userIndex];
+          var user = this.users.find(u => u.account == config.userAccountName);
+
+          var privData = user.private_data.data;
+
+          var encryptObj = encryptionService.encryptData(privData, connectUser.encryption_key);
+          console.log(encryptObj)
+
+          const txResult = await blockchainService.getEos().transaction({ 
+            actions: {
+              account: "wings",
+              name: "connect",
+              authorization: [
+              {
+                actor: config.userAccountName,
+                permission: "active"
+              }],
+              data: {
+                 from: config.userAccountName, 
+                 to: connectUser.name, 
+                 shared_data: {
+                   data: encryptObj.encryptedData.toString('binary'),
+                   nonce: encryptObj.nonce,
+                   checksum: encryptObj.checksum
+                 }
+              }
+            }
+          });
+
+          console.log(txResult);
         }
     }
 };

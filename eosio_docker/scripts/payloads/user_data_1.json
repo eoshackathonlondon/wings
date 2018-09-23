@@ -3,7 +3,7 @@
   "encryption_key": "EOS8LoJJUU3dhiFyJ5HmsMiAuNLGc6HMkxF4Etx6pxLRG7FU89x6X",
   "name": "Andres",
   "age": 28,
-  "profile_pic_url": "valerie.png",
+  "profile_pic_url": "profilepic.jpeg",
   "private_data": {
     "data": "{\"pics\": [\"/profilepic2.jpeg\"]}",
     "nonce": 459,

@@ -23,8 +23,8 @@ export default {
 
     },
     data: () => ({
-        accountName: null,
-        privateKey: null
+        accountName: "andres",
+        privateKey: "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5"
     }),
     computed: {
         

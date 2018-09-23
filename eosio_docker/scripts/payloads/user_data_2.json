@@ -3,9 +3,9 @@
   "encryption_key": "EOS8Du668rSVDE3KkmhwKkmAyxdBd73B51FKE7SjkKe5YERBULMrw",
   "name": "Stella",
   "age": 28,
-  "profile_pic_url": "/profilepic.jpeg",
+  "profile_pic_url": "valerie.png",
   "private_data": {
-    "data": "{\"pics\": [\"/profilepic2.jpeg\"]}",
+    "data": "{\"pics\": [\"/valerie.png\"]}",
     "nonce": 459,
     "checksum": 19
   }
