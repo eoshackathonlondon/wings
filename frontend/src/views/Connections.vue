@@ -46,10 +46,11 @@ export default {
     })).rows;
 
     this.connectedUsers = connections.map(c => {
-        return {...users.find(u => u.account === c.to), private_data: c.data};
+        return {...users.find(u => u.account === c.from), private_data: c.data};
     });
 
     for (const cu of this.connectedUsers) {
+        
         if (cu.private_data && cu.private_data.data) {
             var prvDataText = encryptionService.decryptData(cu.encryption_key, cu.private_data.data, cu.private_data.nonce, cu.private_data.checksum);
             var pvtData = JSON.parse(prvDataText);
