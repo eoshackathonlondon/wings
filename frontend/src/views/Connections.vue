@@ -4,15 +4,13 @@
           <sui-table-body>
             <sui-table-row v-for="user in connectedUsers" :key="user.account">
                 <sui-table-cell>
-                  <img class="profilePhotoConnected" alt="profile photo" src="user.profile_pic_url">
+                  <img class="profilePhotoConnected" alt="profile photo" :src="user.profile_pic_url">
                 </sui-table-cell>
                 <sui-table-cell single-line><h3>
                   {{user.name}} &bull; {{user.age}} &nbsp; &nbsp; &nbsp; <sui-rating icon="star" :rating="1" :max-rating="1" /> 10500
                 </h3></sui-table-cell>
                 <sui-table-cell>
-                  Creatine supplementation is the reference compound for increasing
-                  muscular creatine levels; there is variability in this increase,
-                  however, with some nonresponders.
+                  {{user.description}}
                 </sui-table-cell>  
             </sui-table-row>
           </sui-table-body>
@@ -21,35 +19,43 @@
 </template>
       
 <script>
+import encryptionService from "../services/encryptionService.js";
 import blockchainService from "../services/blockchainService.js";
+import config from "../config.js"
 
 export default {
   name: "TableRatingExample",
   data() {
     return {
-      connections: [],
-      users: []
+      connectedUsers: []
     };
   },
   async mounted() {
-    this.connections = (await blockchainService.getEos().getTableRows({
+    var connections = (await blockchainService.getEos().getTableRows({
       json: true,
       code: "wings",
       scope: "wings",
       table: "messages"
-    })).rows;
-    this.users = (await blockchainService.getEos().getTableRows({
+    })).rows.filter(c => c.to === config.userAccountName);
+
+    var users = (await blockchainService.getEos().getTableRows({
       json: true,
       code: "wings",
       scope: "wings",
       table: "users"
     })).rows;
-  },
-  computed: {
-    connectedUsers() {
-      return this.connections.map(c =>
-        this.users.find(u => u.account === c.to)
-      );
+
+    this.connectedUsers = connections.map(c => {
+        return {...users.find(u => u.account === c.to), private_data: c.data};
+    });
+
+    for (const cu of this.connectedUsers) {
+        if (cu.private_data && cu.private_data.data) {
+            var prvDataText = encryptionService.decryptData(cu.encryption_key, cu.private_data.data, cu.private_data.nonce, cu.private_data.checksum);
+            var pvtData = JSON.parse(prvDataText);
+            cu.description = pvtData.description;
+            cu.pics = pvtData.pics;
+        }
     }
   }
 };

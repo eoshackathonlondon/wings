@@ -37,7 +37,7 @@ export default {
       this.profile_pic_url = user.profile_pic_url;
 
       if(user.private_data && user.private_data.data) {
-          var prvDataText = encryptionService.decryptData(this.encryption_key, user.private_data.nonce, user.private_data.data, user.private_data.checksum);
+          var prvDataText = encryptionService.decryptData(this.encryption_key, user.private_data.data, user.private_data.nonce, user.private_data.checksum);
           this.private_data = JSON.parse(prvDataText);
       }
   },
