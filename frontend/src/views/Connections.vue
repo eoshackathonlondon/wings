@@ -1,8 +1,8 @@
 <template lang="html">
     <div class="wrap alignLeft">
-        <sui-table celled padded>
+        <!-- <sui-table celled padded>
           <sui-table-body>
-            <sui-table-row v-for="user in connectedUsers" :key="user.account">
+            <sui-table-row >
                 <sui-table-cell>
                   <img class="profilePhotoConnected" alt="profile photo" :src="user.profile_pic_url">
                 </sui-table-cell>
@@ -14,12 +14,12 @@
                 </sui-table-cell>  
             </sui-table-row>
           </sui-table-body>
-        </sui-table>
+        </sui-table> -->
 
-        <sui-card>
+        <sui-card v-for="user in connectedUsers" :key="user.account">
           <sui-image :src="user.profile_pic_url" />
           <sui-card-content>
-            <sui-card-header>{{user.name}} &bull {{user.age}}</sui-card-header>
+            <sui-card-header>{{user.name}} &bull; {{user.age}}</sui-card-header>
             <sui-card-description>{{user.description}}</sui-card-description>
           </sui-card-content>
           <sui-card-content extra>
@@ -32,7 +32,7 @@
 <script>
 import encryptionService from "../services/encryptionService.js";
 import blockchainService from "../services/blockchainService.js";
-import config from "../config.js"
+import config from "../config.js";
 
 export default {
   data() {
@@ -48,8 +48,6 @@ export default {
       table: "messages"
     })).rows.filter(c => c.to === config.userAccountName);
 
-    console.log(connections)
-
     var users = (await blockchainService.getEos().getTableRows({
       json: true,
       code: "wings",
@@ -57,21 +55,23 @@ export default {
       table: "users"
     })).rows;
 
-    this.connectedUsers.push(...connections.map(c => {
-        return {...users.find(u => u.account === c.from), private_data: c.data};
+    this.connectedUsers = connections.map(c => ({
+      ...users.find(u => u.account === c.from),
+      private_data: c.data
     }));
 
-    console.log(users)
-    console.log(this.connectedUsers)
-
     for (const cu of this.connectedUsers) {
-        
-        if (cu.private_data && cu.private_data.data) {
-            var prvDataText = encryptionService.decryptData(cu.encryption_key, cu.private_data.data, cu.private_data.nonce, cu.private_data.checksum);
-            var pvtData = JSON.parse(prvDataText);
-            cu.description = pvtData.description;
-            cu.pics = pvtData.pics;
-        }
+      if (cu.private_data && cu.private_data.data) {
+        var prvDataText = encryptionService.decryptData(
+          cu.encryption_key,
+          cu.private_data.data,
+          cu.private_data.nonce,
+          cu.private_data.checksum
+        );
+        var pvtData = JSON.parse(prvDataText);
+        cu.description = pvtData.description;
+        cu.pics = pvtData.pics;
+      }
     }
   }
 };
