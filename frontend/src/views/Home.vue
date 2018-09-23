@@ -33,11 +33,6 @@ import encryptionService from "../services/encryptionService.js"
 import blockchainService from "../services/blockchainService.js"
 import config from "../config.js"
 
-import erica from "../assets/erica.png";
-import susan from "../assets/susan.png";
-import valerie from "../assets/valerie.png";
-
-var images = {erica, susan, valerie};
 
 export default {
     async mounted() {
