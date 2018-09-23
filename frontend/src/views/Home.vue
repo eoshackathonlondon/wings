@@ -21,10 +21,29 @@
         <sui-button-or text="or" />
         <sui-button @click="connect" color='red' icon="heart" label-position="right">Connect</sui-button>
     </div>
-    <div class="half-spacer">Report this user</div>
+    <div class="half-spacer"><a style="cursor:pointer" @click="toggle">report this user</a></div>
     <div class="half-spacer" />
 
     <i>The full profile data is available once both parties connect.</i>
+
+    <sui-modal v-model="open" size="mini">
+      <sui-modal-content>
+        <h2>Report User</h2>
+        You can affect this users reputation if you suspect they're misbehaving.
+        <div class="half-spacer" />
+          <sui-dropdown class="fullwidth"
+            placeholder="Select a reason"
+            selection
+            :options="options"
+            v-model="current"
+          />
+          <div class="half-spacer" />
+          <sui-button @click.native="report" class="fullwidth">
+              Send Report
+          </sui-button>
+      </sui-modal-content>
+    </sui-modal>
+    
   </div>
 </template>
 
@@ -49,7 +68,11 @@ export default {
     },
     data: () => ({
       users: [],
-      userIndex: 1
+      userIndex: 1,
+      open: false,
+      current: 1,
+      options: [{text: "The profile photo is innapropriate. (-50 reputation points)", value: 0},
+      {text: "I suspect this profile is not authentic. (-100 reputation points)", value: 1}]
     }),
     computed: {
         currentProfilePic() {
@@ -75,6 +98,13 @@ export default {
         }
     },
     methods: {
+        report() {
+          this.$toasted.show("Profile Reported");
+          this.open = !this.open
+        },
+        toggle() {
+          this.open = !this.open
+        },        
         async notInterested() {
           this.userIndex = this.users.length >= this.userIndex ? 1 : this.userIndex++;
           console.log(this.users.length)
