@@ -39,8 +39,6 @@ import valerie from "../assets/valerie.png";
 
 var images = {erica, susan, valerie};
 
-console.log(images)
-
 export default {
     async mounted() {
         var result = await blockchainService.getEos().getTableRows({
@@ -111,6 +109,8 @@ export default {
               }
             }]
           });
+
+          this.$router.push("/connections");
         }
     }
 };
