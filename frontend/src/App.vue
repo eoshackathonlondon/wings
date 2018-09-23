@@ -1,14 +1,35 @@
 <template>
   <div id="app">
-      <img class="logo" src="./assets/logo.png">
+    <img class="logo" src="./assets/logo.png">
     <div id="nav">
       <router-link to="/home">Explore</router-link> |
-      <router-link to="/connections">Connections</router-link> | 
+      <router-link to="/connections">Connections</router-link> |
       <router-link to="/profile">My Profile</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+import blockchainService from "./services/blockchainService.js";
+import config from "./config.js";
+
+export default {
+  data() {
+    return { user: { name: "Sign in", profile_pic: "" } };
+  },
+  async mounted() {
+    this.user = (await blockchainService.getEos().getTableRows({
+      json: true,
+      code: "wings",
+      scope: "wings",
+      table: "users",
+      lower_bound: config.userAccountName
+    })).rows[0];
+  }
+};
+</script>
+
 
 <style>
 #app {
@@ -20,7 +41,7 @@
 }
 #nav {
   padding: 30px;
-  padding-top:0.5em;
+  padding-top: 0.5em;
 }
 
 #nav a {
